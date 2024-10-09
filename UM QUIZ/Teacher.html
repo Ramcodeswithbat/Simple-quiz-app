@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Quiz</title>
+    <link rel="stylesheet" href="Teacher.css"> <!-- Link to CSS for quiz posting -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="post-quiz-container">
+        <h1>Quiz</h1>
+        <br>
+        <form id="post-quiz-form">
+            <!-- Form questions will be dynamically added here -->
+        </form>
+        <div id="navigation-buttons" style="margin-top: 20px;">
+            <button id="prev-btn" style="display: none;">Previous</button>
+            <button id="next-btn" style="display: none;">Next</button>
+            <button id="submit-btn" type="submit" style="display: none;">Post Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let questionCount = prompt("How many questions do you want to add?");
+            questionCount = parseInt(questionCount);
+
+            if (isNaN(questionCount) || questionCount <= 0) {
+                alert("Please enter a valid number of questions.");
+                return;
+            }
+
+            const form = document.getElementById('post-quiz-form');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            let currentQuestionIndex = 0;
+
+            // Array to store the quiz data
+            const quizData = [];
+
+            // Create an array to hold the dynamically generated question divs
+            const questionDivs = [];
+
+            // Loop to generate questions dynamically
+            for (let i = 1; i <= questionCount; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.style.display = 'none'; // Initially hidden
+                questionDiv.innerHTML = `
+                    <div>
+                        <label for="question${i}">Question ${i}:</label>
+                        <input type="text" id="question${i}" name="question${i}" required>
+                    </div>
+                    <div>
+                        <label for="option1_${i}">Option 1:</label>
+                        <input type="text" id="option1_${i}" name="option1_${i}" required>
+                    </div>
+                    <div>
+                        <label for="option2_${i}">Option 2:</label>
+                        <input type="text" id="option2_${i}" name="option2_${i}" required>
+                    </div>
+                    <div>
+                        <label for="option3_${i}">Option 3:</label>
+                        <input type="text" id="option3_${i}" name="option3_${i}" required>
+                    </div>
+                    <div>
+                        <label for="option4_${i}">Option 4:</label>
+                        <input type="text" id="option4_${i}" name="option4_${i}" required>
+                    </div>
+                    <div>
+                        <label for="correct-answer${i}">Correct Answer for Question ${i}:</label>
+                        <select id="correct-answer${i}" name="correct-answer${i}" required>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                            <option value="4">Option 4</option>
+                        </select>
+                    </div>
+                    <br>
+                `;
+                form.appendChild(questionDiv);
+                questionDivs.push(questionDiv); // Add to array
+            }
+
+            // Function to show the current question and hide others
+            function showQuestion(index) {
+                questionDivs.forEach((div, i) => {
+                    div.style.display = i === index ? 'block' : 'none';
+                });
+                // Show/hide buttons based on the question index
+                prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
+                nextBtn.style.display = index === questionCount - 1 ? 'none' : 'inline-block';
+                submitBtn.style.display = index === questionCount - 1 ? 'inline-block' : 'none';
+            }
+
+            // Initialize by showing the first question
+            showQuestion(currentQuestionIndex);
+
+            // Event listeners for navigation buttons
+            nextBtn.addEventListener('click', function () {
+                if (currentQuestionIndex < questionCount - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+
+            prevBtn.addEventListener('click', function () {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+
+            // When the form is submitted, save the quiz data and redirect to the quiz page
+            submitBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Collect data for each question
+                for (let i = 1; i <= questionCount; i++) {
+                    const question = document.getElementById(`question${i}`).value;
+                    const option1 = document.getElementById(`option1_${i}`).value;
+                    const option2 = document.getElementById(`option2_${i}`).value;
+                    const option3 = document.getElementById(`option3_${i}`).value;
+                    const option4 = document.getElementById(`option4_${i}`).value;
+                    const correctAnswer = parseInt(document.getElementById(`correct-answer${i}`).value);
+
+                    quizData.push({
+                        question: question,
+                        answers: [option1, option2, option3, option4],
+                        correct: correctAnswer - 1 // Adjust for 0-based index
+                    });
+                }
+
+                // Store the quiz data in localStorage
+                localStorage.setItem('quizData', JSON.stringify(quizData));
+
+                // Redirect to the quiz page
+                window.location.href = 'quiz.html'; // Adjust to your quiz page URL
+            });
+
+            // Show the navigation buttons initially
+            nextBtn.style.display = 'inline-block';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+.nunito-sans-<uniquifier> {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
+}
+
+body {
+    font-family: "Nunito Sans", sans-serif;
+    background-color: #c0dcc1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+#post-quiz-container {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 10px;
+    border-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90vh;
+}
+
+/*#post-quiz-container {
+    width: 50%;
+    padding: 20px;
+    font-size: 20px;
+    background: linear-gradient(135deg, #ffffff, #e6e6e6); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    border-radius: 15px; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90vh; 
+}*/
+
+h1 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 24px;
+}
+
+form {
+    flex-grow: 1; /* Ensures form takes up available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+form div {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 12px;
+    margin-right: 20px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Limit container height and adjust layout to fit */
+#post-quiz-container {
+    height: 90vh; /* Adjust height to fit within viewport */
+    overflow-y: hidden; /* No vertical scrolling */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #post-quiz-container {
+        width: 90%;
+    }
+}
